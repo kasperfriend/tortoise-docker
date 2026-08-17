@@ -25,6 +25,8 @@ services:
       timeout: 5s
       retries: 30
       start_period: 30s
+    ports:
+      - 127.0.0.1:3306:3306
 
   db-init:
     image: *turtle-image
@@ -103,6 +105,7 @@ services:
     volumes:
       - ${DATA_PATH:-./data}:/opt/turtle/data:ro
       - mangosd-logs:/opt/turtle/logs
+      - ./config:/opt/turtle/etc
     command: ["mangosd"]
     # First start builds bot caches / travel data and can take a long time.
     stop_grace_period: 2m
