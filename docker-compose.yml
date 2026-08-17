@@ -1,10 +1,10 @@
 # Example stack: MariaDB + one-shot DB init + realmd + mangosd
 # Copy .env.example to .env and set secrets before starting.
-# Image: ghcr.io/nescabir/tortoise-docker — override tag with TAG=no-bots if needed.
+# Image: ghcr.io/kasperfriend/tortoise-docker — override tag with TAG=no-bots if needed.
 
 # Override TURTLE_IMAGE with a locally built image when needed. Published
 # images use the portable CPU target configured by Dockerfile/CI.
-x-turtle-image: &turtle-image ${TURTLE_IMAGE:-ghcr.io/nescabir/tortoise-docker:${TAG:-playerbots}}
+x-turtle-image: &turtle-image ${TURTLE_IMAGE:-ghcr.io/kasperfriend/tortoise-docker:${TAG:-playerbots}}
 
 services:
   db:
