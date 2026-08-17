@@ -1,0 +1,48 @@
+name: Build and publish tortoise-wow image
+
+on:
+  schedule:
+    - cron: '0 6 * * *'   # runs daily at 06:00 UTC - edit or remove as you like
+  workflow_dispatch: {}    # lets you trigger it manually from the Actions tab
+
+env:
+  IMAGE_NAME: ghcr.io/${{ github.repository_owner }}/tortoise-wow
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout this repo (Dockerfile + docker/ scripts)
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Builds fresh from Shyalya's branch every run (see Dockerfile's
+      # `git clone --branch playerbots-integration-gh`), so this always
+      # picks up the latest commits - no manual rebuild needed.
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          build-args: |
+            BUILD_PLAYERBOTS=ON
+            CPU_TARGET=x86-64-v2
+            BUILD_JOBS=4
+          tags: |
+            ${{ env.IMAGE_NAME }}:playerbots
+            ${{ env.IMAGE_NAME }}:playerbots-${{ github.run_number }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
