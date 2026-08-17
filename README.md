@@ -1,5 +1,7 @@
 # Tortoise WoW (Docker)
 
+# Safety tip: as this repo get rebuilt regularly based on original Shyalya's work, things may break, backup everything before you update!
+
 Run a private [Turtle WoW](https://turtle-wow.org/) server with Docker. This stack uses [Shyalya/tortoise-wow](https://github.com/Shyalya/tortoise-wow) with playerbots.
 
 The server work and install steps come from this video:
