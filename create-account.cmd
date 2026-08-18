@@ -31,7 +31,7 @@ set REALMID=1
 
 REM --- Read DB root password from .env (look for common variable names) ---
 set "DBPASS="
-for %%V in (MYSQL_ROOT_PASSWORD MARIADB_ROOT_PASSWORD DBPASS DB_PASS) do (
+for %%V in (DB_ROOT_PASSWORD MYSQL_ROOT_PASSWORD MARIADB_ROOT_PASSWORD DBPASS DB_PASS) do (
   for /f "usebackq tokens=1* delims==" %%A in (`findstr /b /i "%%V=" ".env" 2^>nul`) do (
     if not defined DBPASS set "DBPASS=%%B"
   )
