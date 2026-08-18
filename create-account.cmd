@@ -3,7 +3,7 @@ REM Interactive account creation for the tortoise-wow server.
 REM Just double-click this file (or run it) and answer the prompts.
 REM Run it from the same folder as your docker-compose.yml.
 
-setlocal
+setlocal enabledelayedexpansion
 
 echo ================================
 echo   Create a Turtle WoW Account
@@ -28,7 +28,25 @@ set /p GMLEVEL=Enter GM level (0-4, press Enter for 0/normal player):
 if "%GMLEVEL%"=="" set GMLEVEL=0
 
 set REALMID=1
-set DBPASS=root
+
+REM --- Read DB root password from .env (look for common variable names) ---
+set "DBPASS="
+for %%V in (MYSQL_ROOT_PASSWORD MARIADB_ROOT_PASSWORD DBPASS DB_PASS) do (
+  for /f "usebackq tokens=1* delims==" %%A in (`findstr /b /i "%%V=" ".env" 2^>nul`) do (
+    if not defined DBPASS set "DBPASS=%%B"
+  )
+)
+
+REM fallback if not found
+if not defined DBPASS (
+  set "DBPASS=changeme"
+)
+
+REM remove any quotes and trim whitespace
+if defined DBPASS (
+  set "DBPASS=!DBPASS:"=!"
+  for /f "tokens=* delims= " %%x in ("!DBPASS!") do set "DBPASS=%%x"
+)
 
 echo.
 echo ------------------------------------
