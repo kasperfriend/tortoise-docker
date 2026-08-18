@@ -39,6 +39,7 @@ Edit `.env`:
 1. Set strong values for `DB_ROOT_PASSWORD` and `DB_PASSWORD`.
 2. Set `REALM_ADDRESS` to an address your game client can reach.
 3. Set `DATA_PATH` if your client data is not in `./data`.
+4. IMPORTANT: AI_MIN_RANDOM_BOTS=10 and AI_MAX_RANDOM_BOTS=10 in .env may override .conf file, to be safe - just match numbers in those two files, so amount is same in both files
 
 Use `127.0.0.1` for `REALM_ADDRESS` only when the client runs on the same machine. For another PC on your LAN, use your host LAN IP.
 

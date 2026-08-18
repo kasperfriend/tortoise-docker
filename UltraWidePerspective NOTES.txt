@@ -7,10 +7,4 @@ Also, AHBot is set up and working, though not perfectly tuned - report if needed
 
 I included a couple of scripts to operate the server. Keep Docker running when execute them!
 
-This Server has pre-created accounts:
-account1-account1 GM
-account2-account2 non-GM
-account3-account3 non-GM
-account4-account4 GM
-
 Have a good time there!
