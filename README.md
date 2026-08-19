@@ -6,7 +6,7 @@ Run a private [Turtle WoW](https://turtle-wow.org/) server with Docker. This sta
 
 The server work and install steps come from this video:
 
-**[Tortoise WoW / playerbots setup (YouTube)](https://www.youtube.com/watch?v=CNgkHs3btNE)**
+**[Tortoise WoW / playerbots Docker setup (YouTube)](https://youtu.be/BFJes1sIi6c)**
 
 This repository ships a Compose file. CI builds and publishes the server images to GHCR. The published binaries use a portable x86-64-v2 CPU target so the image does not depend on the instruction set of the CI runner.
 
@@ -17,14 +17,14 @@ This repository ships a Compose file. CI builds and publishes the server images 
 - Client data folders: `dbc`, `maps`, `vmaps`, `mmaps`
 - Several GB of free disk space
 
-The images do not include client data. You extract that data from your game client. The video and the [Linux install guide](https://github.com/Shyalya/tortoise-wow/blob/playerbots-integration-gh/INSTALL-LINUX.md) show how.
+The images do not include client data. You extract that data from your game client. The video shows how to get them.
 
 ## Quick start
 
 ### 1. Get the Compose files
 
 ```bash
-git clone https://github.com/Nescabir/tortoise-docker.git
+git clone https://github.com/kasperfriend/tortoise-docker
 cd tortoise-docker
 ```
 
@@ -55,15 +55,16 @@ data/
   mmaps/
 ```
 
-### 4. Start with Compose
+### 4. Start with Compose(or use script)
 
 Compose pulls the published images and starts the stack:
 
 ```bash
 docker compose up -d
 ```
+You can always feel free to start the server using start-server.cmd
 
-The first start downloads the images (if needed) and imports the world database. This takes several minutes.
+The first start downloads the images (if needed) and imports the world database. This takes several minutes. This may take up to 20 minutes, if seem stuck, open powershell in server folder and run: docker compose logs --tail=20 mangosd, and see if it still INSERTs - if yes, wait more, if there are many different messages - proceed
 
 Then watch the world server:
 
@@ -76,10 +77,13 @@ Wait until the log shows:
 ```text
 World server is up and running
 ```
+This message may drown in stream of messages if you waited too long. I recommend giving it 20 minutes at first start, and then just start creating accounts. If it breaks - this may mean that server is still working with database
 
 The first start with playerbots is slow. The server builds bot gear data before it is ready. Do not create an account before that line appears.
 
 ### 5. Create a game account
+
+Prefferably - use script create-account.cmd, it will guide you, or:
 
 ```bash
 docker compose exec -u turtle mangosd bash -c 'echo "account create myuser mypass" > /opt/turtle/run/mangosd.in'
@@ -102,6 +106,10 @@ set realmlist 127.0.0.1
 ```
 
 Use the same host as `REALM_ADDRESS` in `.env`. Then log in with the account you created.
+
+### Optional 7. Updating the server
+
+The server gets rebuilt every day, but your local copy stays on your PC. Use update-server.cmd to backup and update everything, recommended once in a week\two
 
 ### CPU compatibility and local builds
 
