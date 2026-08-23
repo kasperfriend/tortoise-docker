@@ -17,9 +17,9 @@ for /f "tokens=1,2 delims==" %%A in ('findstr /b "DB_ROOT_PASSWORD=" .env 2^>nul
 
 if not exist backups mkdir backups
 
-REM Build a timestamp like 2026-08-17_1530 (locale-independent, from wmic)
-for /f "skip=1" %%T in ('wmic os get localdatetime') do if not defined DTS set DTS=%%T
-set STAMP=%DTS:~0,4%-%DTS:~4,2%-%DTS:~6,2%_%DTS:~8,2%%DTS:~10,2%
+REM Build a timestamp like 2026-08-17_1530 using PowerShell
+for /f %%T in ('powershell -NoProfile -Command "Get-Date -Format yyyyMMdd_HHmm"') do set DTS=%%T
+set STAMP=%DTS:~0,4%-%DTS:~4,2%-%DTS:~6,2%_%DTS:~9,2%%DTS:~11,2%
 
 set DUMPFILE=backups\backup_%STAMP%.sql
 set COMMITFILE=backups\backup_%STAMP%_commit.txt
