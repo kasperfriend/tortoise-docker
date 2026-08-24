@@ -68,7 +68,7 @@ services:
       REALM_PORT: ${REALM_PORT:-3724}
       BIND_IP: "0.0.0.0"
     ports:
-      - "${GAME_BIND_IP:-127.0.0.1}:${REALM_PORT:-3724}:3724"
+      - "${REALM_PORT:-3724}:3724"
     command: ["realmd"]
 
   mangosd:
@@ -101,7 +101,7 @@ services:
       AI_MIN_RANDOM_BOTS: ${AI_MIN_RANDOM_BOTS:-10}
       AI_MAX_RANDOM_BOTS: ${AI_MAX_RANDOM_BOTS:-10}
     ports:
-      - "${GAME_BIND_IP:-127.0.0.1}:${WORLD_PORT:-8090}:8090"
+      - "${WORLD_PORT:-8090}:8090"
     volumes:
       - ${DATA_PATH:-./data}:/opt/turtle/data:ro
       - mangosd-logs:/opt/turtle/logs
